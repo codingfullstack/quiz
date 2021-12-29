@@ -11,7 +11,10 @@ let time;
 let interval;
 let count;
 let i = 0;
-
+let m;
+for(m=0; m<questions.length;m++){
+ questions[m].answers.sort(function () { return 0.5 - Math.random() });   
+}
 const p = document.createElement("h3");
 p.setAttribute("id", "h3");
 p.innerText = "Sveiki atvyke, norite pradėti testą?";
@@ -25,6 +28,9 @@ document.getElementById("start").addEventListener('click', () => {
     check.style.display = "inline";
     document.getElementById("start").remove();
     getQuestion(i);
+    // console.log(questions[i].answers);
+    
+    // console.log(questions[i].answers);
     questions[i].answers.forEach(getAnswers)
     createBox();
 });
@@ -66,8 +72,10 @@ function getQuestion(i) {
 
 next.addEventListener("click", () => {
     count.remove();
-    timeItem();
-    startInterval();
+    if (i != 19) {
+        timeItem();
+        startInterval();
+    }
     check.disabled = false;
     next.disabled = true;
     i++
@@ -79,7 +87,7 @@ next.addEventListener("click", () => {
     } else if (i == questions.length) {
         const p = document.createElement("h3");
         p.setAttribute("id", "h3");
-        p.innerText = "Testą atlikote Jūs surinkote " + "" + points + " taškus";
+        p.innerText = "Testą atlikote Jūsų surinkti taškai " + ": " + points;
         content.appendChild(p);
         next.remove();
         check.remove();
@@ -151,7 +159,7 @@ time = StartTimer * 60;
 
 function timeItem() {
     count = document.createElement("div");
-    count.innerText = "0 : 30";
+    count.innerText = "30";
     count.style.margin = "1%";
     count.style.fontSize = "22px";
     count.style.fontWeight = "bold";
@@ -161,7 +169,7 @@ function timeItem() {
 function timer() {
     minutes = Math.floor(time / 60);
     second = time % 60;
-    count.innerHTML = `${minutes} : ${second}`;
+    count.innerHTML = `${second}`;
     if (second == 0) {
         minutes = 0;
         second = 0;
