@@ -4,7 +4,9 @@ import questions from "./data.js";
 const next = document.getElementById("next");
 const check = document.getElementById("check");
 const content = document.getElementById("content");
-const container = document.getElementById("container");
+const cardBody = document.getElementById("card-body");
+const title = document.getElementById("title");
+const maine = document.getElementById("maine");
 let minutes;
 let second;
 let time;
@@ -12,13 +14,21 @@ let interval;
 let count;
 let i = 0;
 let m;
+
 for(m=0; m<questions.length;m++){
- questions[m].answers.sort(function () { return 0.5 - Math.random() });   
+ questions[m].answers.sort(function () { return 0.5 - Math.random() });
+ questions.sort(function () { return 0.5 - Math.random() });
 }
+document.getElementById("card-body").style.padding = "0";
+document.getElementById("card").style.border = "none";
+title.style.color = "#e6f3f7";
+title.style.padding = "1%";
+title.style.backgroundColor = "#97baa0";
+maine.style.backgroundColor = "#afd1b7";
 const p = document.createElement("h3");
 p.setAttribute("id", "h3");
 p.innerText = "Sveiki atvyke, norite pradėti testą?";
-content.appendChild(p);
+title.appendChild(p);
 
 document.getElementById("start").addEventListener('click', () => {
     timeItem();
@@ -28,9 +38,6 @@ document.getElementById("start").addEventListener('click', () => {
     check.style.display = "inline";
     document.getElementById("start").remove();
     getQuestion(i);
-    // console.log(questions[i].answers);
-    
-    // console.log(questions[i].answers);
     questions[i].answers.forEach(getAnswers)
     createBox();
 });
@@ -38,13 +45,17 @@ document.getElementById("start").addEventListener('click', () => {
 
 function createBox() {
     let box;
+    const fotter = document.createElement("div");
+    fotter.style.padding = "1%";
+    fotter.style.backgroundColor = "#c4edce";
+    cardBody.appendChild(fotter);
     for (let s = 0; s < questions.length; s++) {
         box = document.createElement("div");
         box.setAttribute("class", "item");
         box.style.display = "inline";
         box.style.padding = "6px 12px";
         box.classList.add("text-danger", "border", "border-1", "border-dark", "rounded", "m-1");
-        container.appendChild(box);
+        fotter.appendChild(box);
     }
 }
 
@@ -64,13 +75,16 @@ function getAnswers(item) {
 
 
 function getQuestion(i) {
-    const h4 = document.createElement("h4");
+    const h4 = document.createElement("h3");
+    title.appendChild(h4);
+    title.classList.add("d-flex", "flex-row-reverse", "justify-content-between");
     h4.innerText = i + 1 + ". " + questions[i].question;
-    content.appendChild(h4);
+    
 };
 
 
 next.addEventListener("click", () => {
+    title.textContent = '';
     count.remove();
     if (i != 19) {
         timeItem();
@@ -80,6 +94,7 @@ next.addEventListener("click", () => {
     next.disabled = true;
     i++
     content.textContent = '';
+
     if (i == questions.length - 1) {
         next.value = "Pateikti";
         getQuestion(i);
@@ -160,10 +175,9 @@ time = StartTimer * 60;
 function timeItem() {
     count = document.createElement("div");
     count.innerText = "30";
-    count.style.margin = "1%";
     count.style.fontSize = "22px";
     count.style.fontWeight = "bold";
-    card.append(count);
+    title.appendChild(count);
 }
 
 function timer() {
@@ -174,7 +188,8 @@ function timer() {
         minutes = 0;
         second = 0;
         count.style.color = "red";
-    } else {
+        next.disabled = false;
+    }  else {
         time--;
     }
 }
