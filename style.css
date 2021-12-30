@@ -12,3 +12,11 @@ body{
 h3{
     margin: 0;
 }
+ .btn{
+     background-color:  #9bc2a5;
+     border: #7e9684;
+ }
+ #start{
+    background-color:  #84af8f;
+    margin: 3px;
+ }
